@@ -61,6 +61,12 @@ class WorkoutController extends Controller
      */
     public function destroy(Workout $workout)
     {
-        //
+        $workout->workoutExercises()->get()->each(function ($exercise) {
+            $exercise->series()->delete();
+        });
+        $workout->workoutExercises()->delete();
+        $workout->delete();
+
+        return new WorkoutResource($workout);
     }
 }
