@@ -4,8 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\TableResource;
+use App\Http\Resources\EventResource;
 
-class CoachClientResource extends JsonResource
+class ReservationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +18,10 @@ class CoachClientResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'coach' => new UserResource($this->coach),
-            'client' => new UserResource($this->client),
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'table' => new TableResource($this->table),
+            'event' => new EventResource($this->event),
+            'reserved_by' => $this->reserved_by,
+            'instagram_link' => $this->instagram_link,
         ];
     }
 }

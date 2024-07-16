@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CoachClientController;
-use App\Http\Controllers\TrainingBlockController;
-use App\Http\Controllers\WorkoutController;
-use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\TableController;
+use App\Http\Controllers\ReservationController;
+
 // CORS
 // header('Access-Control-Allow-Origin: *');
 // header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -27,18 +27,20 @@ use App\Http\Controllers\ExerciseController;
  If a route does not work, try stopping the server, running php artisan route:clear in the console, and starting the server again before trying anything else
 */
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('register', [AuthController::class, 'registerAdmin']);
+Route::post('login', [AuthController::class, 'login']);
 
-Route::post('training-blocks', [TrainingBlockController::class, 'store']);
+Route::get('users', [UserController::class, 'index']);
+Route::get('tables', [TableController::class, 'index']);
+
+Route::get('events/upcoming', [EventController::class, 'getUpcomingEvents']);
+Route::get('events/{event}/reservations', [EventController::class, 'getReservations']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('user-details', [AuthController::class, 'userDetails']);
-    Route::get('users', [UserController::class, 'index']);
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::resource('events', EventController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('reservations', ReservationController::class);
 
-    Route::resource('workouts', WorkoutController::class);
-    Route::resource('exercises', ExerciseController::class);
-    Route::get('clients/{clientId}/training-blocks', [TrainingBlockController::class, 'getTrainingBlocksForClient']);
-    Route::get('coaches/{coachId}/clients', [CoachClientController::class, 'getClientsForCoach']);
 });

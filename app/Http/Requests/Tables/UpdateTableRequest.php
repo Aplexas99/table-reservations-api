@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Tables;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCoachClientRequest extends FormRequest
+class UpdateTableRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateCoachClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'label' => 'required|string',
+            'zone' => 'required|string',
+            'x' => 'nullable|integer',
+            'y' => 'nullable|integer',
         ];
     }
 }
