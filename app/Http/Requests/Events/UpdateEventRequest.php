@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Events;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTrainingBlockRequest extends FormRequest
+class UpdateEventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class StoreTrainingBlockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|integer|exists:users,id',
-            'name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date',
+            'name' => 'required|string',
+            'date' => 'required|date',
         ];
     }
 }

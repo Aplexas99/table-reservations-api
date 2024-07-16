@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('training_blocks', function (Blueprint $table) {
+        Schema::create('tables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('users');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->date('start_date');
-            $table->date('end_date')->nullable();
+            $table->string('label');
+            $table->string('zone');
+            $table->integer('x')->nullable();
+            $table->integer('y')->nullable();
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('training_blocks');
+        Schema::dropIfExists('tables');
     }
 };

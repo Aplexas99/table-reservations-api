@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\WorkoutExerciseResource;
 
-class WorkoutResource extends JsonResource
+class ReservationWithoutEventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +16,9 @@ class WorkoutResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'date' => $this->date,
-            'exercises' => WorkoutExerciseResource::collection($this->workoutExercises),
+            'table' => new TableResource($this->table),
+            'reserved_by' => $this->reserved_by,
+            'instagram_link' => $this->instagram_link,
         ];
     }
 }

