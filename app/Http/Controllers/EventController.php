@@ -20,8 +20,7 @@ class EventController extends Controller
         $sortBy = $request->get('sort_by') ? $request->get('sort_by') : 'created_at';
         $sortDirection = $request->get('sort_direction') ? $request->get('sort_direction') : 'asc';
 
-        $events = Event::query();
-
+        $events = Event::where('date', '>=', now()->toDateString());
         // filter
         if ($request->get('name')) {
             $events = $events->whereName($request->get('name'));
@@ -36,6 +35,8 @@ class EventController extends Controller
         else if($sortBy == 'date') {
             $events = $events->orderByDate($sortDirection);
         }
+
+
 
         $events = $events->paginate($perPage);
         return EventResource::collection($events);
@@ -81,7 +82,9 @@ class EventController extends Controller
 
     public function getUpcomingEvents()
     {
-        $events = Event::where('date', '>', now())->get();
+        $events = Event::where('date', '>', now())
+            ->orderBy('date', 'asc')
+            ->get();
         return EventResource::collection($events);
     }
 
